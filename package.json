@@ -1,0 +1,82 @@
+{
+  "name": "@ideastime/payload-brand",
+  "version": "0.0.0",
+  "description": "iDeasTime admin branding for Payload CMS 3",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./rsc": {
+      "types": "./dist/exports/rsc.d.ts",
+      "import": "./dist/exports/rsc.js",
+      "default": "./dist/exports/rsc.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm clean && pnpm build:types && pnpm build:swc",
+    "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths",
+    "build:types": "tsc --outDir dist --rootDir ./src",
+    "clean": "rimraf {dist,*.tsbuildinfo}",
+    "dev": "next dev dev --turbo",
+    "dev:payload": "cross-env PAYLOAD_CONFIG_PATH=./dev/payload.config.ts payload",
+    "generate:importmap": "pnpm dev:payload generate:importmap",
+    "lint": "eslint --no-error-on-unmatched-pattern src test scripts",
+    "lint:fix": "eslint --no-error-on-unmatched-pattern src test scripts --fix",
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@payloadcms/db-sqlite": "3.90.1",
+    "@payloadcms/eslint-config": "3.28.0",
+    "@payloadcms/next": "3.90.1",
+    "@payloadcms/richtext-lexical": "3.90.1",
+    "@payloadcms/ui": "3.90.1",
+    "@playwright/test": "1.58.2",
+    "@swc-node/register": "1.10.9",
+    "@swc/cli": "0.6.0",
+    "@types/node": "22.19.9",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.23.0",
+    "eslint-config-next": "16.3.6",
+    "graphql": "^16.8.1",
+    "next": "16.3.6",
+    "open": "^10.1.0",
+    "payload": "3.90.1",
+    "prettier": "^3.4.2",
+    "qs-esm": "8.0.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "rimraf": "3.0.2",
+    "sharp": "0.35.4",
+    "sort-package-json": "^2.10.0",
+    "typescript": "5.7.3",
+    "vite-tsconfig-paths": "6.0.5",
+    "vitest": "4.0.18"
+  },
+  "peerDependencies": {
+    "payload": ">=3.90.1 <4",
+    "react": "^19"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0",
+    "pnpm": "^9 || ^10 || ^11"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "esbuild",
+      "unrs-resolver"
+    ]
+  }
+}
