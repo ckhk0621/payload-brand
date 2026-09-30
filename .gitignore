@@ -1,0 +1,6 @@
+# Internal design docs mention client names and incident details;
+# this repo is intended to be public, so they stay local only.
+/docs/superpowers/
+/.superpowers/
+node_modules/
+.DS_Store
