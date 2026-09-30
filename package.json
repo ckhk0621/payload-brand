@@ -32,7 +32,9 @@
     "lint": "eslint --no-error-on-unmatched-pattern src test scripts",
     "lint:fix": "eslint --no-error-on-unmatched-pattern src test scripts --fix",
     "test:unit": "vitest run",
-    "test:e2e": "cross-env BRAND=ideastime playwright test && cross-env BRAND=example playwright test"
+    "test:e2e": "cross-env BRAND=ideastime playwright test && cross-env BRAND=example playwright test",
+    "test:failsoft": "node scripts/failsoft-check.mjs",
+    "test:payload": "node scripts/test-payload.mjs"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
