@@ -31,7 +31,8 @@
     "generate:importmap": "pnpm dev:payload generate:importmap",
     "lint": "eslint --no-error-on-unmatched-pattern src test scripts",
     "lint:fix": "eslint --no-error-on-unmatched-pattern src test scripts --fix",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "test:e2e": "cross-env BRAND=ideastime playwright test && cross-env BRAND=example playwright test"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

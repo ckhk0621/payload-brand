@@ -8,8 +8,10 @@ export const PAYLOAD_FONT_BODY_3_90_1 =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 
 const COMPONENT_CSS = [
-  '.pb-logo{display:inline-flex;align-items:center;gap:.75rem;max-width:100%}',
-  '.pb-logo__img{display:block;max-width:100%;max-height:4.5rem;height:auto}',
+  // No percentage sizes here: Payload's login brand wrapper is a flex container, and a %
+  // max-width on a shrink-to-fit child collapses the logo to 0px wide.
+  '.pb-logo{display:inline-flex;align-items:center;gap:.75rem}',
+  '.pb-logo__img{display:block;height:3rem;width:auto;max-width:20rem;object-fit:contain;object-position:left center}',
   '.pb-logo__mark{display:block;height:2rem;width:auto}',
   '.pb-wordmark{font-weight:800;letter-spacing:-.04em;font-size:1.75rem;line-height:1;color:var(--theme-elevation-1000)}',
   '.pb-wordmark__accent{color:var(--pb-wordmark-accent)}',

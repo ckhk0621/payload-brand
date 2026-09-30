@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 // `exports` (dist/, absent before a build) and ignores tsconfig paths. Next still resolves the
 // importMap's '@ideastime/payload-brand/rsc' entries to ../src via dev/tsconfig.json paths.
 import { brandPlugin } from '../src/index.js'
+import { exampleBrand } from './brands.js'
 import { testEmailAdapter } from './helpers/testEmailAdapter.js'
 import { seed } from './seed.js'
 
@@ -47,7 +48,7 @@ export default buildConfig({
   onInit: async (payload) => {
     await seed(payload)
   },
-  plugins: [brandPlugin()],
+  plugins: [brandPlugin(process.env.BRAND === 'example' ? exampleBrand : undefined)],
   secret: process.env.PAYLOAD_SECRET || 'dev-only-secret',
   sharp,
   typescript: {
