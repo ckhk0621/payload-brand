@@ -32,6 +32,9 @@ function LogoContent({ brand }: { brand: ResolvedBrand }) {
 
 /** admin.components.graphics.Logo — rendered on the login view. */
 export function BrandLogo({ brand, css }: BrandProps) {
+  if (!brand || css === undefined) {
+    return null
+  }
   return (
     <span aria-label={brand.name ?? undefined} className="pb-logo">
       <BrandStyle css={css} fontHref={brand.font?.href ?? null} />

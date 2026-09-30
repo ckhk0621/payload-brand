@@ -5,6 +5,9 @@ import { Signature } from './Signature.js'
 
 /** admin.components.afterNavLinks — carries the theme on every authenticated view. */
 export function NavFooter({ brand, css, i18n }: BrandProps & ViewerProps) {
+  if (!brand || css === undefined) {
+    return null
+  }
   return (
     <div className="pb-nav-footer">
       <BrandStyle css={css} fontHref={brand.font?.href ?? null} />

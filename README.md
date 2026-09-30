@@ -46,7 +46,7 @@ missing from the importMap does not error: it silently disappears.
 | `colors.background` | Optional dark hex; tints the whole admin. Too light → Payload grey |
 | `colors.accent` | Hex; used only by this package's components. Needs 3:1 against the background |
 | `font` | Optional `{ family, href }`; plain family name, `https://` stylesheet |
-| `ogImage` | Optional **absolute** `https://` URL (Payload resolves relative paths against `serverURL`) |
+| `ogImage` | Optional **absolute** `https://` URL (Payload resolves relative paths against `serverURL`). Without it, link previews show the brand name but no image: Payload's generated `/api/og` image is turned off because it cannot draw a relative-path mark |
 | `welcome` | Optional login and dashboard text |
 
 ## Known limitations

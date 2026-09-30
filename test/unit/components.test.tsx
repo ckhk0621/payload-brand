@@ -3,6 +3,7 @@ import type { ReactElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, test } from 'vitest'
 
+import type { BrandProps } from '../../src/components/props.js'
 import type { Brand } from '../../src/types.js'
 
 import { BrandIcon } from '../../src/components/BrandIcon.js'
@@ -115,5 +116,19 @@ describe('welcome', () => {
         <DashboardWelcome brand={client} css={clientCss} i18n={{ language: 'zh' }} user={{ email: 'dev@example.com' }} />,
       ),
     ).toContain('您好，dev@example.com')
+  })
+})
+
+describe('missing serverProps (a future Payload that stops passing them)', () => {
+  const none = {} as BrandProps
+  test.each([
+    ['BrandIcon', BrandIcon],
+    ['BrandLogo', BrandLogo],
+    ['DashboardWelcome', DashboardWelcome],
+    ['LoginFooter', LoginFooter],
+    ['LoginWelcome', LoginWelcome],
+    ['NavFooter', NavFooter],
+  ])('%s renders nothing instead of throwing', (_name, Component) => {
+    expect(html(<Component {...none} />)).toBe('')
   })
 })

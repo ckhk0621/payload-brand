@@ -12,6 +12,9 @@ function displayName(user: ViewerProps['user']): null | string {
 
 /** admin.components.beforeDashboard — appended after any project components. */
 export function DashboardWelcome({ brand, i18n, user }: BrandProps & ViewerProps) {
+  if (!brand) {
+    return null
+  }
   const labels = labelsFor(i18n?.language)
   return (
     <section className="pb-dashboard-card">

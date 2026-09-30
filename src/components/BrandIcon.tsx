@@ -4,7 +4,7 @@ import { IdeastimeMark } from './IdeastimeMark.js'
 
 /** admin.components.graphics.Icon — rendered in the app header on authenticated views. */
 export function BrandIcon({ brand }: BrandProps) {
-  const mark = brand.mark
+  const mark = brand?.mark
   if (!mark) {
     return null
   }

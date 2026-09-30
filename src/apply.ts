@@ -87,13 +87,21 @@ export function applyBrand(config: Config, input: Brand | undefined, warn: Warn)
       meta.icons = [{ rel: 'icon', url: favicon, ...(type ? { type } : {}) }]
     }
   }
-  if (brand.ogImage) {
+  if (meta.defaultOGImageType === undefined) {
+    // Payload's dynamic /api/og image draws graphics.Icon; a client mark is a relative <img src>,
+    // which its image renderer rejects. Previews use brand.ogImage or no image instead.
+    meta.defaultOGImageType = 'off'
+  }
+  if (brand.name || brand.ogImage) {
     if (meta.openGraph !== undefined) {
       warn('admin.meta.openGraph is set by the project; keeping it')
     } else {
+      // Without siteName/description, previews keep Payload's defaults ("Payload App").
       meta.openGraph = {
-        images: [{ url: brand.ogImage }],
-        ...(brand.name ? { title: brand.name } : {}),
+        ...(brand.name
+          ? { description: `${brand.name} admin`, siteName: brand.name, title: brand.name }
+          : {}),
+        ...(brand.ogImage ? { images: [{ url: brand.ogImage }] } : {}),
       }
     }
   }

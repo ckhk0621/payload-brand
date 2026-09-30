@@ -67,6 +67,12 @@ test('favicon and link preview point at the brand', async ({ page }) => {
     'content',
     expected.ogImage,
   )
+  // Previews must not fall back to Payload's defaults ("Payload App").
+  await expect(page.locator('head meta[property="og:site_name"]')).toHaveAttribute(
+    'content',
+    expected.name,
+  )
+  await expect(page.locator('head meta[property="og:image"]')).toHaveCount(1)
 })
 
 test('dashboard greets the user and the nav carries the signature', async ({ page }) => {

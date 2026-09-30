@@ -58,7 +58,14 @@ describe('applyBrand with the iDeasTime preset', () => {
     const icons = meta.icons as Array<{ type?: string; url: string }>
     expect(icons[0].url.startsWith('data:image/svg+xml,')).toBe(true)
     expect(icons[0].type).toBe('image/svg+xml')
-    expect(meta.openGraph).toEqual({ images: [{ url: IDEASTIME.ogImage }], title: 'iDeasTime' })
+    expect(meta.openGraph).toEqual({
+      description: 'iDeasTime admin',
+      images: [{ url: IDEASTIME.ogImage }],
+      siteName: 'iDeasTime',
+      title: 'iDeasTime',
+    })
+    // Payload's dynamic /api/og draws graphics.Icon with a relative <img>, which its renderer rejects.
+    expect(meta.defaultOGImageType).toBe('off')
   })
 
   test('emits no warnings', () => {
@@ -113,9 +120,25 @@ describe('client brand', () => {
     expect(out.admin!.meta!.icons).toBeUndefined()
   })
 
-  test('relative ogImage: no openGraph override, warning', () => {
+  test('relative ogImage: no preview image, warning, but still branded preview text', () => {
     const { out, warnings } = run({}, { ...example, ogImage: '/brand/og.png' })
-    expect(out.admin!.meta!.openGraph).toBeUndefined()
+    expect(out.admin!.meta!.openGraph).toEqual({
+      description: 'Example Co. admin',
+      siteName: 'Example Co.',
+      title: 'Example Co.',
+    })
+    expect(out.admin!.meta!.defaultOGImageType).toBe('off')
     expect(warnings.some((w) => w.includes('ogImage'))).toBe(true)
+  })
+
+  test('without ogImage, Payload\'s dynamic preview image is turned off', () => {
+    const { out } = run({}, { ...example, ogImage: undefined })
+    expect(out.admin!.meta!.defaultOGImageType).toBe('off')
+    expect(out.admin!.meta!.openGraph).not.toHaveProperty('images')
+  })
+
+  test('keeps a project-set defaultOGImageType', () => {
+    const { out } = run({ admin: { meta: { defaultOGImageType: 'dynamic' } } }, example)
+    expect(out.admin!.meta!.defaultOGImageType).toBe('dynamic')
   })
 })
