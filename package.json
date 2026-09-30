@@ -36,7 +36,8 @@
     "test:failsoft": "node scripts/failsoft-check.mjs",
     "test:payload": "node scripts/test-payload.mjs",
     "verify:dist": "node scripts/verify-dist.mjs",
-    "release": "node scripts/release.mjs"
+    "release": "node scripts/release.mjs",
+    "test:consumer": "node scripts/consumer-check.mjs"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
