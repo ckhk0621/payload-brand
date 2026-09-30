@@ -1,0 +1,25 @@
+# Weekly upgrade gate against npm latest. GitHub disables scheduled workflows in public repos after
+# 60 days without repository activity, so this is a supplement: run `pnpm test:payload <version>`
+# locally before upgrading any client project.
+name: payload-latest
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:payload latest

@@ -1,218 +1,88 @@
-# Payload Plugin Template
+# @ideastime/payload-brand
 
-A template repo to create a [Payload CMS](https://payloadcms.com) plugin.
+Admin branding for Payload CMS 3 by [iDeasTime](https://www.ideastime.ltd): a dark admin tinted to
+the brand, logo and favicon, a welcome card, and a "Crafted by iDeasTime" signature with support
+contacts. With no brand passed it shows the iDeasTime demo brand.
 
-Payload is built with a robust infrastructure intended to support Plugins with ease. This provides a simple, modular, and reusable way for developers to extend the core capabilities of Payload.
+It only uses documented Payload APIs (`admin.components` slots, `admin.meta`, `admin.theme`, CSS
+variables). It never registers `admin.components.providers` and never throws: if anything is
+wrong, that part of the admin falls back to Payload's defaults.
 
-To build your own Payload plugin, all you need is:
+Tested with Payload 3.90.1 and 3.90.2 on Next 16.3.6.
 
-- An understanding of the basic Payload concepts
-- And some JavaScript/Typescript experience
+## Install
 
-## Background
+1. `pnpm add github:ckhk0621/payload-brand#semver:^1.0.0`
+2. Put dark-background versions of the mark (and optionally the full logo) in `public/brand/`, then
+   create `src/brand.ts`:
 
-Here is a short recap on how to integrate plugins with Payload, to learn more visit the [plugin overview page](https://payloadcms.com/docs/plugins/overview).
+   ```ts
+   import type { Brand } from '@ideastime/payload-brand'
 
-### How to install a plugin
+   export const brand: Brand = {
+     name: 'Example Co.',
+     mark: '/brand/mark.svg',
+     logo: '/brand/logo.svg',
+     colors: { accent: '#4FD1C5', background: '#10231F' },
+     ogImage: 'https://example.com/og.png',
+     welcome: { login: 'Welcome back', dashboard: 'Manage your content here.' },
+   }
+   ```
 
-To install any plugin, simply add it to your payload.config() in the Plugin array.
+3. Add the plugin: `plugins: [brandPlugin(brand)]` (or `brandPlugin()` for the iDeasTime demo).
+4. Run `pnpm payload generate:importmap`. Projects using R2/S3 storage must run it with their
+   storage env loaded, or the storage upload handler drops out of the importMap.
 
-```ts
-import myPlugin from 'my-plugin'
+**Re-run step 4 after every change to `brand.ts` and every upgrade of this package.** A component
+missing from the importMap does not error: it silently disappears.
 
-export const config = buildConfig({
-  plugins: [
-    // You can pass options to the plugin
-    myPlugin({
-      enabled: true,
-    }),
-  ],
-})
+## Brand fields
+
+| Field | Rule |
+|---|---|
+| `name` | Title suffix, logo alt text |
+| `mark` | Square mark for dark backgrounds; path starting with `/` or an `https://` URL |
+| `logo` | Optional full logo; without it the login shows mark + name |
+| `colors.background` | Optional dark hex; tints the whole admin. Too light → Payload grey |
+| `colors.accent` | Hex; used only by this package's components. Needs 3:1 against the background |
+| `font` | Optional `{ family, href }`; plain family name, `https://` stylesheet |
+| `ogImage` | Optional **absolute** `https://` URL (Payload resolves relative paths against `serverURL`) |
+| `welcome` | Optional login and dashboard text |
+
+## Known limitations
+
+- The forgot-password and create-first-user views render none of the slots, so they keep Payload's
+  grey (dark) look; only the title suffix and favicon apply there.
+- Primary buttons keep Payload's design (light button on dark background), tinted by the palette.
+- The login logo is shown 3rem high (up to 20rem wide); very wide logos are letterboxed.
+- Do not also override `--color-base-*` in your own `custom.scss`: both are unlayered and the last
+  one loaded wins.
+
+## Before upgrading Payload in a client project
+
+Run the upgrade gate in this repo against the target version:
+
+```bash
+pnpm test:payload 3.91.0
 ```
 
-### Initialization
+It installs that version into the dev app, runs unit tests, the e2e smoke for both brands and the
+fail-soft check, then restores the repo. A weekly CI run does the same against npm `latest`, but
+GitHub disables scheduled workflows after 60 days of inactivity, so do not rely on it alone.
 
-The initialization process goes in the following order:
+## Development
 
-1. Incoming config is validated
-2. **Plugins execute**
-3. Default options are integrated
-4. Sanitization cleans and validates data
-5. Final config gets initialized
-
-## Building the Plugin
-
-When you build a plugin, you are purely building a feature for your project and then abstracting it outside of the project.
-
-### Template Files
-
-In the Payload [plugin template](https://github.com/payloadcms/payload/tree/3.x/templates/plugin), you will see a common file structure that is used across all plugins:
-
-1. root folder
-2. /src folder
-3. /dev folder
-
-#### Root
-
-In the root folder, you will see various files that relate to the configuration of the plugin. We set up our environment in a similar manner in Payload core and across other projects, so hopefully these will look familiar:
-
-- **README**.md\* - This contains instructions on how to use the template. When you are ready, update this to contain instructions on how to use your Plugin.
-- **package**.json\* - Contains necessary scripts and dependencies. Overwrite the metadata in this file to describe your Plugin.
-- .**eslint**.config.js - Eslint configuration for reporting on problematic patterns.
-- .**gitignore** - List specific untracked files to omit from Git.
-- .**prettierrc**.json - Configuration for Prettier code formatting.
-- **tsconfig**.json - Configures the compiler options for TypeScript
-- .**swcrc** - Configuration for SWC, a fast compiler that transpiles and bundles TypeScript.
-- **vitest**.config.js - Config file for Vitest, defining how tests are run and how modules are resolved
-
-**IMPORTANT\***: You will need to modify these files.
-
-#### Dev
-
-In the dev folder, you’ll find a basic payload project, created with `npx create-payload-app` and the blank template.
-
-**IMPORTANT**: Make a copy of the `.env.example` file and rename it to `.env`. Update the `DATABASE_URL` to match the database you are using and your plugin name. Update `PAYLOAD_SECRET` to a unique string.
-**You will not be able to run `pnpm/yarn dev` until you have created this `.env` file.**
-
-`myPlugin` has already been added to the `payload.config()` file in this project.
-
-```ts
-plugins: [
-  myPlugin({
-    collections: {
-      posts: true,
-    },
-  }),
-]
+```bash
+pnpm install
+pnpm dev                  # dev app on :3000 (BRAND=example for the fictional client brand)
+pnpm test:unit
+pnpm test:e2e             # both brands
+pnpm test:failsoft        # admin survives a missing component
+pnpm lint
 ```
 
-Later when you rename the plugin or add additional options, **make sure to update it here**.
+`dist/` is committed and only updated by `pnpm release <x.y.z>`, which builds, checks, commits
+`dist/` with the version bump and tags. Consumers install tags, not `main`.
 
-You may wish to add collections or expand the test project depending on the purpose of your plugin. Just make sure to keep this dev environment as simplified as possible - users should be able to install your plugin without additional configuration required.
-
-When you’re ready to start development, initiate the project with `pnpm/npm/yarn dev` and pull up [http://localhost:3000](http://localhost:3000) in your browser.
-
-#### Src
-
-Now that we have our environment setup and we have a dev project ready to - it’s time to build the plugin!
-
-**index.ts**
-
-The essence of a Payload plugin is simply to extend the payload config - and that is exactly what we are doing in this file.
-
-```ts
-export const myPlugin =
-  (pluginOptions: MyPluginConfig) =>
-  (config: Config): Config => {
-    // do cool stuff with the config here
-
-    return config
-  }
-```
-
-First, we receive the existing payload config along with any plugin options.
-
-From here, you can extend the config as you wish.
-
-Finally, you return the config and that is it!
-
-##### Spread Syntax
-
-Spread syntax (or the spread operator) is a feature in JavaScript that uses the dot notation **(...)** to spread elements from arrays, strings, or objects into various contexts.
-
-We are going to use spread syntax to allow us to add data to existing arrays without losing the existing data. It is crucial to spread the existing data correctly – else this can cause adverse behavior and conflicts with Payload config and other plugins.
-
-Let’s say you want to build a plugin that adds a new collection:
-
-```ts
-config.collections = [
-  ...(config.collections || []),
-  // Add additional collections here
-]
-```
-
-First we spread the `config.collections` to ensure that we don’t lose the existing collections, then you can add any additional collections just as you would in a regular payload config.
-
-This same logic is applied to other properties like admin, hooks, globals:
-
-```ts
-config.globals = [
-  ...(config.globals || []),
-  // Add additional globals here
-]
-
-config.hooks = {
-  ...(incomingConfig.hooks || {}),
-  // Add additional hooks here
-}
-```
-
-Some properties will be slightly different to extend, for instance the onInit property:
-
-```ts
-import { onInitExtension } from './onInitExtension' // example file
-
-config.onInit = async (payload) => {
-  if (incomingConfig.onInit) await incomingConfig.onInit(payload)
-  // Add additional onInit code by defining an onInitExtension function
-  onInitExtension(pluginOptions, payload)
-}
-```
-
-If you wish to add to the onInit, you must include the **async/await**. We don’t use spread syntax in this case, instead you must await the existing `onInit` before running additional functionality.
-
-In the template, we have stubbed out some addition `onInit` actions that seeds in a document to the `plugin-collection`, you can use this as a base point to add more actions - and if not needed, feel free to delete it.
-
-##### Types.ts
-
-If your plugin has options, you should define and provide types for these options.
-
-```ts
-export type MyPluginConfig = {
-  /**
-   * List of collections to add a custom field
-   */
-  collections?: Partial<Record<CollectionSlug, true>>
-  /**
-   * Disable the plugin
-   */
-  disabled?: boolean
-}
-```
-
-If possible, include JSDoc comments to describe the options and their types. This allows a developer to see details about the options in their editor.
-
-##### Testing
-
-Having a test suite for your plugin is essential to ensure quality and stability. **Vitest** is a fast, modern testing framework that works seamlessly with Vite and supports TypeScript out of the box.
-
-Vitest organizes tests into test suites and cases, similar to other testing frameworks. We recommend creating individual tests based on the expected behavior of your plugin from start to finish.
-
-Writing tests with Vitest is very straightforward, and you can learn more about how it works in the [Vitest documentation.](https://vitest.dev/)
-
-For this template, we stubbed out `int.spec.ts` in the `dev` folder where you can write your tests.
-
-```ts
-describe('Plugin tests', () => {
-  // Create tests to ensure expected behavior from the plugin
-  it('some condition that must be met', () => {
-   // Write your test logic here
-   expect(...)
-  })
-})
-```
-
-## Best practices
-
-With this tutorial and the plugin template, you should have everything you need to start building your own plugin.
-In addition to the setup, here are other best practices aim we follow:
-
-- **Providing an enable / disable option:** For a better user experience, provide a way to disable the plugin without uninstalling it. This is especially important if your plugin adds additional webpack aliases, this will allow you to still let the webpack run to prevent errors.
-- **Include tests in your GitHub CI workflow**: If you’ve configured tests for your package, integrate them into your workflow to run the tests each time you commit to the plugin repository. Learn more about [how to configure tests into your GitHub CI workflow.](https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs)
-- **Publish your finished plugin to NPM**: The best way to share and allow others to use your plugin once it is complete is to publish an NPM package. This process is straightforward and well documented, find out more [creating and publishing a NPM package here.](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages/).
-- **Add payload-plugin topic tag**: Apply the tag **payload-plugin **to your GitHub repository. This will boost the visibility of your plugin and ensure it gets listed with [existing payload plugins](https://github.com/topics/payload-plugin).
-- **Use [Semantic Versioning](https://semver.org/) (SemVar)** - With the SemVar system you release version numbers that reflect the nature of changes (major, minor, patch). Ensure all major versions reference their Payload compatibility.
-
-# Questions
-
-Please contact [Payload](mailto:dev@payloadcms.com) with any questions about using this plugin template.
+This repository is public: no client names or internal details in code, fixtures or commits.
+iDeasTime values in `src/ideastime.ts` mirror the official site; update both together.
