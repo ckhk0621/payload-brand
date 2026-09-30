@@ -7,7 +7,7 @@
 
 - Autopilot 執行緊 implementation plan `docs/superpowers/plans/2026-09-30-payload-brand.md`。Spec 喺同層 `specs/`，兩份都 gitignored、只喺本機。
 - Repo 只喺本機，冇 remote。工作喺 branch `feat/v1`；`main` 停喺 handoff commit。Release tag 都只喺本機。
-- 進度：Task 1–4 完成；下一個 Task 5（CSS builder）。
+- 進度：Task 1–5 完成；下一個 Task 6（server components）。
 
 ## 等 CK
 
