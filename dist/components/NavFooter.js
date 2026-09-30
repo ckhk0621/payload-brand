@@ -2,6 +2,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { BrandStyle } from './BrandStyle.js';
 import { Signature } from './Signature.js';
 /** admin.components.afterNavLinks — carries the theme on every authenticated view. */ export function NavFooter({ brand, css, i18n }) {
+    if (!brand || css === undefined) {
+        return null;
+    }
     return /*#__PURE__*/ _jsxs("div", {
         className: "pb-nav-footer",
         children: [

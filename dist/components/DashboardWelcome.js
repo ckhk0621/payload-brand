@@ -8,6 +8,9 @@ function displayName(user) {
     return typeof user?.email === 'string' ? user.email : null;
 }
 /** admin.components.beforeDashboard — appended after any project components. */ export function DashboardWelcome({ brand, i18n, user }) {
+    if (!brand) {
+        return null;
+    }
     const labels = labelsFor(i18n?.language);
     return /*#__PURE__*/ _jsxs("section", {
         className: "pb-dashboard-card",

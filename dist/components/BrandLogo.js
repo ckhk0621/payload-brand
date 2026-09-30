@@ -47,6 +47,9 @@ function LogoContent({ brand }) {
     });
 }
 /** admin.components.graphics.Logo — rendered on the login view. */ export function BrandLogo({ brand, css }) {
+    if (!brand || css === undefined) {
+        return null;
+    }
     return /*#__PURE__*/ _jsxs("span", {
         "aria-label": brand.name ?? undefined,
         className: "pb-logo",
