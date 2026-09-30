@@ -80,8 +80,9 @@ writeFileSync(
         isolatedModules: true,
         jsx: 'preserve',
         lib: ['DOM', 'DOM.Iterable', 'ES2022'],
-        module: 'esnext',
-        moduleResolution: 'bundler',
+        // NodeNext like the repo: Turbopack maps './x.js' imports to './x.ts' only under it.
+        module: 'NodeNext',
+        moduleResolution: 'nodenext',
         noEmit: true,
         paths: { '@payload-config': ['./payload.config.ts'] },
         plugins: [{ name: 'next' }],
