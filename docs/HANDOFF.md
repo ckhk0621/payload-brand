@@ -7,7 +7,7 @@
 
 - v1 做完，2026-10-01 已經 ff 入 `main`（`feat/v1` 留住，同 `main` 同一個 commit）。ff 之後喺 `main` 再跑過：lint 0、tsc 0、unit 91/91、`verify:dist` 一致。
 - 已 push 去公開 repo `ckhk0621/payload-brand`（`main` 同 `v1.0.0`–`v1.0.2`）。2026-10-01 第一輪 `ci` 4 個 run（`main` ＋ 3 個 tag）全過；tag run 連 `verify:dist` 都過。客戶 project 照 README 用 `github:` 裝，唔再係 `git+file://`。
-- 本機 tag：
+- Tag（本機同 `origin` 一致）：
   - **`v1.0.2` 係現行版本**：`colors`／`colors.accent` 變選填（唔填就行 Payload 原裝 dark、卡邊用 Payload 白色），非正方形 mark 唔再爆出 nav icon slot。
   - `v1.0.1` 用得，但冇上面兩樣；iDeasTime preset 個 nav icon 會被裁。
   - `v1.0.0` 有 review 揪出嘅兩個問題：冇 `ogImage` 時預覽圖爛、serverProps 冇嘅話會 throw。唔好用，但留低唔刪。
