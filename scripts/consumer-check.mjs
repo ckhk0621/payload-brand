@@ -144,7 +144,7 @@ try {
   failed = !(
     result.logo === 1 &&
     result.signature.includes('Crafted by iDeasTime') &&
-    // The demo brand sets no background: Payload's stock dark, not the preset's navy.
+    // The demo brand sets no colors: Payload's stock dark, not the preset's navy.
     result.background === 'rgb(20, 20, 20)' &&
     result.title.endsWith('— iDeasTime Demo')
   )

@@ -1,14 +1,16 @@
 export type Brand = {
-  colors: {
-    /** Hex colour used only by payload-brand components (card border, highlights). */
-    accent: string
+  /** Omit to keep Payload's own dark mode. */
+  colors?: {
+    /** Hex colour used only by payload-brand components (card border). Omit for Payload's white. */
+    accent?: string
     /** Dark hex colour; tints Payload's neutral palette. Omit to keep Payload's grey. */
     background?: string
   }
   font?: { family: string; href: string }
   /** Full logo for dark backgrounds: a path starting with "/" or an https:// URL. */
   logo?: string
-  /** Square mark for dark backgrounds: a path starting with "/" or an https:// URL. */
+  /** Mark for dark backgrounds, ideally square (wider ones shrink to fit the nav icon): a path
+   * starting with "/" or an https:// URL. */
   mark: string
   name: string
   /** Absolute https:// URL of a raster image for link previews. */

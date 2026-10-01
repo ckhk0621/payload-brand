@@ -101,7 +101,7 @@ function resolveFields(
   }
 
   const colors = isObject(input.colors) ? input.colors : {}
-  if (!isObject(input.colors)) {
+  if (input.colors !== undefined && !isObject(input.colors)) {
     warn('brand.colors must be an object')
   }
 
@@ -132,6 +132,9 @@ function resolveAccent(
   palette: null | Record<string, string>,
   warn: Warn,
 ): string {
+  if (value === undefined) {
+    return ACCENT_FALLBACK
+  }
   const accent = parseHex(value)
   if (!accent) {
     warn('brand.colors.accent must be a #rgb or #rrggbb hex colour')

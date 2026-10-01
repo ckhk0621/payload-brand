@@ -48,8 +48,9 @@ test('login page carries the brand', async ({ page }) => {
   expect(await rootBackground(page)).toBe(expected.background)
   const theme = page.locator('head style[data-href="payload-brand-theme"]')
   await expect(theme).toHaveCount(1)
-  // Only a brand with a background may override Payload's palette.
-  expect((await theme.textContent())?.includes('--color-base-')).toBe(expected.tinted)
+  // Only a brand with a background may define Payload's palette variables (a var() reference,
+  // like the neutral accent fallback, is not an override).
+  expect(/--color-base-\d+:/.test((await theme.textContent()) ?? '')).toBe(expected.tinted)
   if (expected.welcomeLogin) {
     await expect(page.locator('.pb-welcome')).toHaveText(expected.welcomeLogin)
     const loaded = await page
@@ -86,6 +87,23 @@ test('dashboard greets the user and the nav carries the signature', async ({ pag
   await expect(page.locator('.pb-dashboard-card')).toContainText(`Hello, ${devUser.email}`)
   await expect(page.locator('.pb-nav-footer')).toContainText('Crafted by iDeasTime')
   expect(await rootBackground(page)).toBe(expected.background)
+})
+
+test('nav icon fits inside its slot whatever the mark proportions', async ({ page }) => {
+  await login(page)
+  // Payload's slot is 18px on desktop and 16px on phones; a wider icon spills out of it (R10).
+  for (const viewport of [{ height: 900, width: 1440 }, { height: 844, width: 390 }]) {
+    await page.setViewportSize(viewport)
+    const slot = page.locator('.step-nav__home')
+    const icon = slot.locator('.pb-icon')
+    await expect(icon).toBeVisible()
+    const slotBox = (await slot.boundingBox())!
+    const iconBox = (await icon.boundingBox())!
+    expect(iconBox.x).toBeGreaterThanOrEqual(slotBox.x - 0.5)
+    expect(iconBox.y).toBeGreaterThanOrEqual(slotBox.y - 0.5)
+    expect(iconBox.x + iconBox.width).toBeLessThanOrEqual(slotBox.x + slotBox.width + 0.5)
+    expect(iconBox.y + iconBox.height).toBeLessThanOrEqual(slotBox.y + slotBox.height + 0.5)
+  }
 })
 
 test('collection and account views keep the theme', async ({ page }) => {

@@ -7,5 +7,4 @@
 - **R6** `font.family` 冇 trim：`'Inter '` 會被接受，但永遠配唔到已載入嘅字體。
 - **R7** Reset-password 頁（`/admin/reset/:token`）同忘記密碼頁一樣冇品牌，但 README「Known limitations」冇寫；e2e 冇 cover 首次建 user 頁（seed 永遠會建 user）。
 - **R8** Guard 唔夠嚴：`guards.test.ts` 嘅 regex 捉唔到 side-effect import（`import '@payloadcms/ui/…'`）；「never registers providers」只驗咗 preset 配空 config。可以加 `src/` 靜態 grep `providers` 同 client brand 嘅斷言。
-- **R10**（2026-10-01 preview 揾到）Nav 左上角 icon 位得 18×18px，**唔係正方形嘅 mark 會被裁**：iDeasTime preset 個 mark（`viewBox 0 0 100 56`）render 成 29×16，只見到藍色一粒加一條橙邊。demo 品牌個 mark 係正方形，所以冇事。E2E 只驗 `toBeVisible`，捉唔到。修法未試：要令 `pb-icon` 喺 slot 入面按比例縮細（preset 係 inline `<svg>`，客戶係 `<img>`，兩樣都要處理；CLAUDE.md 嘅百分比陷阱只喺 login flex wrapper 驗過，nav slot 要自己試）。另外加 E2E 斷言 icon 寬高唔超出 slot。改 `src/` 即係要出新 patch。
 - **R9** E2E、fail-soft、consumer check 全部行 `next dev`。2026-09-30 做過一次人手 production smoke（由 `v1.0.1` 安裝，`next build` + `next start`，品牌全部正確），但未自動化。可以喺 consumer-check 加一個可選嘅 `next build && next start` 步驟。

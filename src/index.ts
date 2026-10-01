@@ -20,7 +20,7 @@ function warnOnce(message: string): void {
 }
 
 /**
- * Brands the Payload admin. Call with no argument for the iDeasTime demo brand, or pass a
+ * Brands the Payload admin. Call with no argument for the iDeasTime brand itself, or pass a
  * client `Brand`. Never throws: on any problem the admin falls back to Payload's defaults.
  */
 export function brandPlugin(brand?: Brand): Plugin {

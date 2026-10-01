@@ -89,6 +89,25 @@ describe('client brand', () => {
     expect(warnings.some((w) => w.includes('brand.colors.accent'))).toBe(true)
   })
 
+  test('without colors, keeps Payload neutral with no warnings', () => {
+    const { brand, warnings } = resolve({ ...demo, colors: undefined })
+    expect(warnings).toEqual([])
+    expect(brand.accent).toBe('var(--color-base-0)')
+    expect(brand.palette).toBeNull()
+  })
+
+  test('background without an accent gets the neutral accent and no warnings', () => {
+    const { brand, warnings } = resolve({ ...demo, colors: { background: '#10231F' } })
+    expect(warnings).toEqual([])
+    expect(brand.accent).toBe('var(--color-base-0)')
+    expect(brand.palette?.['--color-base-900']).toBe('#10231f')
+  })
+
+  test('colors that are not an object still warn', () => {
+    const { warnings } = resolve({ ...demo, colors: 'teal' as unknown as Brand['colors'] })
+    expect(warnings).toContain('brand.colors must be an object')
+  })
+
   test.each([
     [{ family: 'Inter;}</style>', href: 'https://fonts.googleapis.com/css2?family=Inter' }],
     [{ family: 'Inter', href: 'http://fonts.googleapis.com/css2?family=Inter' }],

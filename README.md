@@ -23,7 +23,6 @@ Tested with Payload 3.90.1 and 3.90.2 on Next 16.3.6.
      name: 'iDeasTime Demo',
      mark: '/brand/mark.svg',
      logo: '/brand/logo.svg',
-     colors: { accent: '#4FD1C5' }, // add `background: '#10231F'` to tint the admin
      ogImage: 'https://example.com/og.png',
      welcome: { login: 'Welcome back', dashboard: 'Manage your content here.' },
    }
@@ -41,10 +40,11 @@ missing from the importMap does not error: it silently disappears.
 | Field | Rule |
 |---|---|
 | `name` | Title suffix, logo alt text |
-| `mark` | Square mark for dark backgrounds; path starting with `/` or an `https://` URL |
+| `mark` | Mark for dark backgrounds, ideally square (wider marks shrink to fit the nav icon); path starting with `/` or an `https://` URL |
 | `logo` | Optional full logo; without it the login shows mark + name |
+| `colors` | Optional. Leave it out to keep Payload's own dark mode |
 | `colors.background` | Optional dark hex; tints the whole admin. Too light → Payload grey |
-| `colors.accent` | Hex; used only by this package's components. Needs 3:1 against the background |
+| `colors.accent` | Optional hex for the dashboard card border; without it the border is Payload's white. Needs 3:1 against the background |
 | `font` | Optional `{ family, href }`; plain family name, `https://` stylesheet |
 | `ogImage` | Optional **absolute** `https://` URL (Payload resolves relative paths against `serverURL`). Without it, link previews show the brand name but no image: Payload's generated `/api/og` image is turned off because it cannot draw a relative-path mark |
 | `welcome` | Optional login and dashboard text |
