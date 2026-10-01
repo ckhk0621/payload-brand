@@ -10,7 +10,8 @@ const COMPONENT_CSS = [
     '.pb-logo__mark{display:block;height:2rem;width:auto}',
     '.pb-wordmark{font-weight:800;letter-spacing:-.04em;font-size:1.75rem;line-height:1;color:var(--theme-elevation-1000)}',
     '.pb-wordmark__accent{color:var(--pb-wordmark-accent)}',
-    '.pb-icon{display:block;height:1.25rem;width:auto}',
+    // A square box inside Payload's 18px nav slot: wide marks scale down instead of spilling out.
+    '.pb-icon{display:block;width:1.25rem;height:1.25rem;object-fit:contain}',
     '.pb-welcome{margin:0 0 1.5rem;color:var(--theme-elevation-800)}',
     '.pb-signature{display:flex;flex-direction:column;gap:.25rem;font-size:.75rem;line-height:1.4;color:var(--theme-elevation-500)}',
     '.pb-signature a{color:inherit;text-decoration:none}',

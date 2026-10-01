@@ -93,7 +93,7 @@ function resolveFields(input, warn, isPreset) {
         }
     }
     const colors = isObject(input.colors) ? input.colors : {};
-    if (!isObject(input.colors)) {
+    if (input.colors !== undefined && !isObject(input.colors)) {
         warn('brand.colors must be an object');
     }
     let palette = null;
@@ -117,6 +117,9 @@ function resolveFields(input, warn, isPreset) {
     };
 }
 function resolveAccent(value, palette, warn) {
+    if (value === undefined) {
+        return ACCENT_FALLBACK;
+    }
     const accent = parseHex(value);
     if (!accent) {
         warn('brand.colors.accent must be a #rgb or #rrggbb hex colour');
