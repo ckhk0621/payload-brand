@@ -5,7 +5,8 @@
 
 ## 而家企喺邊
 
-- v1 做完，2026-10-01 已經 ff 入 `main`（`feat/v1` 留住，同 `main` 同一個 commit）。ff 之後喺 `main` 再跑過：lint 0、tsc 0、unit 91/91、`verify:dist` 一致。Repo 冇 remote。
+- v1 做完，2026-10-01 已經 ff 入 `main`（`feat/v1` 留住，同 `main` 同一個 commit）。ff 之後喺 `main` 再跑過：lint 0、tsc 0、unit 91/91、`verify:dist` 一致。
+- 已 push 去公開 repo `ckhk0621/payload-brand`（`main` 同 `v1.0.0`–`v1.0.2`）。2026-10-01 第一輪 `ci` 4 個 run（`main` ＋ 3 個 tag）全過；tag run 連 `verify:dist` 都過。客戶 project 照 README 用 `github:` 裝，唔再係 `git+file://`。
 - 本機 tag：
   - **`v1.0.2` 係現行版本**：`colors`／`colors.accent` 變選填（唔填就行 Payload 原裝 dark、卡邊用 Payload 白色），非正方形 mark 唔再爆出 nav icon slot。
   - `v1.0.1` 用得，但冇上面兩樣；iDeasTime preset 個 nav icon 會被裁。
@@ -17,13 +18,12 @@
   - `test:payload 3.90.2` PASSED（3.90.1 係 repo 本身嘅版本，即上面幾項）
   - `verify:dist` 一致；`test:consumer v1.0.2` PASSED
   - 人手 production smoke（`next build` + `next start`）淨係做過 `v1.0.1`，`v1.0.2` 未做（BACKLOG R9）
-- `.github/workflows/` 兩個 workflow 未跑過，因為冇 remote。
+- `payload-latest`（每週一 schedule）未跑過；`ci` 見上。
 - Plan／spec 喺 `docs/superpowers/`，gitignored、只喺本機。
 
 ## 等 CK
 
 - 覆核 3 個【autopilot】決定（見已拍板）。CK 2026-10-01 睇過兩個品牌嘅 preview，冇反對，但未明確批。
-- 開公開 GitHub repo `ckhk0621/payload-brand`，push `main` 同 tags。對外動作，Claude 唔做。Push 之後要睇第一次 CI run。⚠️ commit author email `ckhk0621@gmail.com` 會隨 push 公開。第一個客戶 project commit 依賴之前要 push，否則 lockfile 會寫死本機 `git+file://` 路徑。
 - 每個客戶 admin 會顯示支援聯絡 `cklam@ideastime.ltd` 同 WhatsApp +852 6329 5926（官網 `lib/contact.json` 鏡像）。要唔要另開一個 support email？
 - 覆核 autopilot 收工留低嘅 save 候選：`~/.claude/autopilot/dab01200-7899-427b-a178-2db4605d6faf-review.md`
 
