@@ -23,7 +23,7 @@
 ## 等 CK
 
 - 覆核 3 個【autopilot】決定（見已拍板）。CK 2026-10-01 睇過兩個品牌嘅 preview，冇反對，但未明確批。
-- 睇完成果：`git switch main && git merge --ff-only feat/v1`。
+- 睇完成果：`git -C ~/jobs/ideastime/payload-brand switch main && git -C ~/jobs/ideastime/payload-brand merge --ff-only feat/v1`（一定要帶 `-C`：`!` 命令喺 session 個 cwd 跑，2026-10-01 喺 ecm-payload 跑咗冇效）。
 - 開公開 GitHub repo `ckhk0621/payload-brand`，push `main` 同 tags。對外動作，Claude 唔做。Push 之後要睇第一次 CI run。⚠️ commit author email `ckhk0621@gmail.com` 會隨 push 公開。第一個客戶 project commit 依賴之前要 push，否則 lockfile 會寫死本機 `git+file://` 路徑。
 - License 暫定 `UNLICENSED`（冇授權任何人用）。建議維持：公開只係為咗客戶 project 裝得到。
 - 每個客戶 admin 會顯示支援聯絡 `cklam@ideastime.ltd` 同 WhatsApp +852 6329 5926（官網 `lib/contact.json` 鏡像）。要唔要另開一個 support email？
