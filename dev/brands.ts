@@ -1,14 +1,15 @@
 import type { Brand } from '../src/types.js'
 
-// Fictional client brand used to exercise the client path. Keep it fictional: this repo is public.
-export const exampleBrand: Brand = {
+// Second brand used to exercise the client path (brandPlugin(brand)). Its name must stay distinct
+// from the preset's 'iDeasTime', or tests cannot tell a client brand from a silent preset fallback.
+export const demoBrand: Brand = {
   colors: { accent: '#4FD1C5', background: '#10231F' },
-  logo: '/brand/example-logo.svg',
-  mark: '/brand/example-mark.svg',
-  name: 'Example Co.',
+  logo: '/brand/demo-logo.svg',
+  mark: '/brand/demo-mark.svg',
+  name: 'iDeasTime Demo',
   ogImage: 'https://example.com/og.png',
   welcome: {
-    dashboard: 'Manage your Example Co. content here.',
-    login: 'Welcome back to Example Co.',
+    dashboard: 'Manage your iDeasTime Demo content here.',
+    login: 'Welcome back to iDeasTime Demo.',
   },
 }

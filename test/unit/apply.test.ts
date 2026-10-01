@@ -9,11 +9,11 @@ import { IDEASTIME } from '../../src/ideastime.js'
 
 type Registered = { path: string; serverProps: { brand: ResolvedBrand; css: string } }
 
-const example: Brand = {
-  name: 'Example Co.',
+const demo: Brand = {
+  name: 'iDeasTime Demo',
   colors: { accent: '#4FD1C5', background: '#10231F' },
-  logo: '/brand/example-logo.svg',
-  mark: '/brand/example-mark.png',
+  logo: '/brand/demo-logo.svg',
+  mark: '/brand/demo-mark.png',
   ogImage: 'https://example.com/og.png',
 }
 
@@ -108,37 +108,37 @@ describe('merge rules', () => {
 
 describe('client brand', () => {
   test('png mark becomes a png favicon', () => {
-    const { out } = run({}, example)
+    const { out } = run({}, demo)
     const icons = out.admin!.meta!.icons as Array<{ type?: string; url: string }>
-    expect(icons).toEqual([{ type: 'image/png', rel: 'icon', url: '/brand/example-mark.png' }])
+    expect(icons).toEqual([{ type: 'image/png', rel: 'icon', url: '/brand/demo-mark.png' }])
   })
 
   test('without a valid mark or logo, graphics stay Payload defaults', () => {
-    const { out } = run({}, { ...example, logo: undefined, mark: 'nope' })
+    const { out } = run({}, { ...demo, logo: undefined, mark: 'nope' })
     expect(out.admin!.components!.graphics!.Logo).toBeUndefined()
     expect(out.admin!.components!.graphics!.Icon).toBeUndefined()
     expect(out.admin!.meta!.icons).toBeUndefined()
   })
 
   test('relative ogImage: no preview image, warning, but still branded preview text', () => {
-    const { out, warnings } = run({}, { ...example, ogImage: '/brand/og.png' })
+    const { out, warnings } = run({}, { ...demo, ogImage: '/brand/og.png' })
     expect(out.admin!.meta!.openGraph).toEqual({
-      description: 'Example Co. admin',
-      siteName: 'Example Co.',
-      title: 'Example Co.',
+      description: 'iDeasTime Demo admin',
+      siteName: 'iDeasTime Demo',
+      title: 'iDeasTime Demo',
     })
     expect(out.admin!.meta!.defaultOGImageType).toBe('off')
     expect(warnings.some((w) => w.includes('ogImage'))).toBe(true)
   })
 
   test('without ogImage, Payload\'s dynamic preview image is turned off', () => {
-    const { out } = run({}, { ...example, ogImage: undefined })
+    const { out } = run({}, { ...demo, ogImage: undefined })
     expect(out.admin!.meta!.defaultOGImageType).toBe('off')
     expect(out.admin!.meta!.openGraph).not.toHaveProperty('images')
   })
 
   test('keeps a project-set defaultOGImageType', () => {
-    const { out } = run({ admin: { meta: { defaultOGImageType: 'dynamic' } } }, example)
+    const { out } = run({ admin: { meta: { defaultOGImageType: 'dynamic' } } }, demo)
     expect(out.admin!.meta!.defaultOGImageType).toBe('dynamic')
   })
 })

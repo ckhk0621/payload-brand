@@ -101,7 +101,7 @@ writeFileSync(
 
 const env = {
   ...process.env,
-  BRAND: 'example',
+  BRAND: 'demo',
   DATABASE_URL: 'file:./dev/consumer.db',
   PAYLOAD_CONFIG_PATH: './dev/payload.config.ts',
 }
@@ -145,7 +145,7 @@ try {
     result.logo === 1 &&
     result.signature.includes('Crafted by iDeasTime') &&
     result.background === 'rgb(16, 35, 31)' &&
-    result.title.endsWith('— Example Co.')
+    result.title.endsWith('— iDeasTime Demo')
   )
 } catch (error) {
   console.error(`consumer-check: ${error instanceof Error ? error.message : String(error)}`)

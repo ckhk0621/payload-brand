@@ -2,7 +2,7 @@
 
 Admin branding for Payload CMS 3 by [iDeasTime](https://www.ideastime.ltd): a dark admin tinted to
 the brand, logo and favicon, a welcome card, and a "Crafted by iDeasTime" signature with support
-contacts. With no brand passed it shows the iDeasTime demo brand.
+contacts. With no brand passed it shows the iDeasTime brand itself.
 
 It only uses documented Payload APIs (`admin.components` slots, `admin.meta`, `admin.theme`, CSS
 variables). It never registers `admin.components.providers` and never throws: if anything is
@@ -20,7 +20,7 @@ Tested with Payload 3.90.1 and 3.90.2 on Next 16.3.6.
    import type { Brand } from '@ideastime/payload-brand'
 
    export const brand: Brand = {
-     name: 'Example Co.',
+     name: 'iDeasTime Demo',
      mark: '/brand/mark.svg',
      logo: '/brand/logo.svg',
      colors: { accent: '#4FD1C5', background: '#10231F' },
@@ -29,7 +29,7 @@ Tested with Payload 3.90.1 and 3.90.2 on Next 16.3.6.
    }
    ```
 
-3. Add the plugin: `plugins: [brandPlugin(brand)]` (or `brandPlugin()` for the iDeasTime demo).
+3. Add the plugin: `plugins: [brandPlugin(brand)]` (or `brandPlugin()` for the iDeasTime brand itself).
 4. Run `pnpm payload generate:importmap`. Projects using R2/S3 storage must run it with their
    storage env loaded, or the storage upload handler drops out of the importMap.
 
@@ -74,7 +74,7 @@ GitHub disables scheduled workflows after 60 days of inactivity, so do not rely 
 
 ```bash
 pnpm install
-pnpm dev                  # dev app on :3000 (BRAND=example for the fictional client brand)
+pnpm dev                  # dev app on :3000 (BRAND=demo for the iDeasTime Demo client brand)
 pnpm test:unit
 pnpm test:e2e             # both brands
 pnpm test:failsoft        # admin survives a missing component

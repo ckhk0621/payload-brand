@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const brand = process.env.BRAND === 'example' ? 'example' : 'ideastime'
+const brand = process.env.BRAND === 'demo' ? 'demo' : 'ideastime'
 const port = 3456
 
 export default defineConfig({

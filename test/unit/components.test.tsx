@@ -18,15 +18,15 @@ import { resolveBrand } from '../../src/resolve.js'
 const quiet = () => {}
 const html = (element: ReactElement) => renderToStaticMarkup(element)
 
-const example: Brand = {
-  name: 'Example Co.',
+const demo: Brand = {
+  name: 'iDeasTime Demo',
   colors: { accent: '#4FD1C5', background: '#10231F' },
-  logo: '/brand/example-logo.svg',
-  mark: '/brand/example-mark.svg',
+  logo: '/brand/demo-logo.svg',
+  mark: '/brand/demo-mark.svg',
   welcome: { dashboard: 'Manage your content.', login: 'Welcome back.' },
 }
 const preset = resolveBrand(undefined, quiet)
-const client = resolveBrand(example, quiet)
+const client = resolveBrand(demo, quiet)
 const presetCss = buildThemeCss(preset)
 const clientCss = buildThemeCss(client)
 
@@ -41,22 +41,22 @@ describe('BrandLogo', () => {
 
   test('client logo image', () => {
     const out = html(<BrandLogo brand={client} css={clientCss} />)
-    expect(out).toContain('src="/brand/example-logo.svg"')
-    expect(out).toContain('alt="Example Co."')
+    expect(out).toContain('src="/brand/demo-logo.svg"')
+    expect(out).toContain('alt="iDeasTime Demo"')
   })
 
   test('lockup when the client has no logo', () => {
-    const lockup = resolveBrand({ ...example, logo: undefined }, quiet)
+    const lockup = resolveBrand({ ...demo, logo: undefined }, quiet)
     const out = html(<BrandLogo brand={lockup} css={buildThemeCss(lockup)} />)
-    expect(out).toContain('src="/brand/example-mark.svg"')
-    expect(out).toContain('>Example Co.</span>')
+    expect(out).toContain('src="/brand/demo-mark.svg"')
+    expect(out).toContain('>iDeasTime Demo</span>')
   })
 })
 
 describe('BrandIcon', () => {
   test('preset svg, client image, nothing when unbranded', () => {
     expect(html(<BrandIcon brand={preset} css={presetCss} />)).toContain('<svg')
-    expect(html(<BrandIcon brand={client} css={clientCss} />)).toContain('src="/brand/example-mark.svg"')
+    expect(html(<BrandIcon brand={client} css={clientCss} />)).toContain('src="/brand/demo-mark.svg"')
     const unbranded = resolveBrand(42 as unknown as Brand, quiet)
     expect(html(<BrandIcon brand={unbranded} css="" />)).toBe('')
   })
@@ -94,7 +94,7 @@ describe('welcome', () => {
     expect(html(<LoginWelcome brand={client} css={clientCss} />)).toBe(
       '<p class="pb-welcome">Welcome back.</p>',
     )
-    const hostile = resolveBrand({ ...example, welcome: { login: '<script>x</script>' } }, quiet)
+    const hostile = resolveBrand({ ...demo, welcome: { login: '<script>x</script>' } }, quiet)
     const out = html(<LoginWelcome brand={hostile} css="" />)
     expect(out).toContain('&lt;script&gt;')
     expect(out).not.toContain('<script>')

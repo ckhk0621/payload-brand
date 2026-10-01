@@ -1,13 +1,13 @@
 import { expect, type Page, test } from '@playwright/test'
 
-const BRAND = process.env.BRAND === 'example' ? 'example' : 'ideastime'
+const BRAND = process.env.BRAND === 'demo' ? 'demo' : 'ideastime'
 const expected = {
-  example: {
-    name: 'Example Co.',
+  demo: {
+    name: 'iDeasTime Demo',
     background: 'rgb(16, 35, 31)',
-    icon: '/brand/example-mark.svg',
+    icon: '/brand/demo-mark.svg',
     ogImage: 'https://example.com/og.png',
-    welcomeLogin: 'Welcome back to Example Co.',
+    welcomeLogin: 'Welcome back to iDeasTime Demo.',
   },
   ideastime: {
     name: 'iDeasTime',
