@@ -4,9 +4,11 @@ const BRAND = process.env.BRAND === 'demo' ? 'demo' : 'ideastime'
 const expected = {
   demo: {
     name: 'iDeasTime Demo',
-    background: 'rgb(16, 35, 31)',
+    // No brand background: Payload 3.90.1's stock dark --color-base-900 (#141414).
+    background: 'rgb(20, 20, 20)',
     icon: '/brand/demo-mark.svg',
     ogImage: 'https://example.com/og.png',
+    tinted: false,
     welcomeLogin: 'Welcome back to iDeasTime Demo.',
   },
   ideastime: {
@@ -14,6 +16,7 @@ const expected = {
     background: 'rgb(7, 26, 51)',
     icon: null,
     ogImage: 'https://www.ideastime.ltd/images/og-default.jpg',
+    tinted: true,
     welcomeLogin: null,
   },
 }[BRAND]
@@ -43,7 +46,10 @@ test('login page carries the brand', async ({ page }) => {
   await expect(footer.locator('a[href^="https://wa.me/"]')).toBeVisible()
   await expect(footer.locator('a[href^="mailto:"]')).toBeVisible()
   expect(await rootBackground(page)).toBe(expected.background)
-  await expect(page.locator('head style[data-href="payload-brand-theme"]')).toHaveCount(1)
+  const theme = page.locator('head style[data-href="payload-brand-theme"]')
+  await expect(theme).toHaveCount(1)
+  // Only a brand with a background may override Payload's palette.
+  expect((await theme.textContent())?.includes('--color-base-')).toBe(expected.tinted)
   if (expected.welcomeLogin) {
     await expect(page.locator('.pb-welcome')).toHaveText(expected.welcomeLogin)
     const loaded = await page

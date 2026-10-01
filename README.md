@@ -23,7 +23,7 @@ Tested with Payload 3.90.1 and 3.90.2 on Next 16.3.6.
      name: 'iDeasTime Demo',
      mark: '/brand/mark.svg',
      logo: '/brand/logo.svg',
-     colors: { accent: '#4FD1C5', background: '#10231F' },
+     colors: { accent: '#4FD1C5' }, // add `background: '#10231F'` to tint the admin
      ogImage: 'https://example.com/og.png',
      welcome: { login: 'Welcome back', dashboard: 'Manage your content here.' },
    }

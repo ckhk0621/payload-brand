@@ -4,7 +4,7 @@ Payload 3 admin 品牌 plugin（`@ideastime/payload-brand`）。設計 spec 喺 
 
 ## 公開 repo
 
-- ⚠️ **唔准喺任何 commit 入去嘅檔寫客戶名或者內部事故細節**，包括 `docs/HANDOFF.md`（佢會 commit）、fixture、commit message。第二個品牌 fixture 叫「iDeasTime Demo」（CK 2026-10-01 定，唔用虛構公司名）；假 URL／email 用 `example.com`。⚠️ 個名唔可以改做淨係「iDeasTime」：同 preset 撞名，test 就分唔出客戶品牌生效定係靜靜退返 preset。
+- ⚠️ **唔准喺任何 commit 入去嘅檔寫客戶名或者內部事故細節**，包括 `docs/HANDOFF.md`（佢會 commit）、fixture、commit message。第二個品牌 fixture 叫「iDeasTime Demo」，唔設 `background`，行 Payload 原裝 dark mode（CK 2026-10-01 定，唔用虛構公司名、唔自訂底色）；假 URL／email 用 `example.com`。⚠️ 個名唔可以改做淨係「iDeasTime」：同 preset 撞名，test 就分唔出客戶品牌生效定係靜靜退返 preset。
 - `src/ideastime.ts` 係官網 `official-site-2027` 嘅鏡像（logo、色、聯絡、OG 圖）。官網改咗要兩邊一齊改，來源路徑寫咗喺檔頭。
 
 ## 唔准
