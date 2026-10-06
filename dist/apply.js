@@ -85,7 +85,8 @@ function iconType(url) {
         if (meta.titleSuffix !== undefined) {
             warn('admin.meta.titleSuffix is set by the project; keeping it');
         } else {
-            meta.titleSuffix = ` — ${brand.name}`;
+            // No leading space: Payload joins the suffix with one of its own.
+            meta.titleSuffix = `— ${brand.name}`;
         }
     }
     const favicon = faviconOf(brand);

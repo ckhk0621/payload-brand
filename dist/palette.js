@@ -1,35 +1,12 @@
 import { contrastRatio, oklchToRgb, parseHex, rgbToOklch, toHex } from './color.js';
-// Payload 3.90.1 neutral palette, grey channel value per step
-// (@payloadcms/ui/dist/scss/colors.scss). Only its lightness curve is reused, so the derived
-// palette keeps Payload's own contrast relationships. Re-check when Payload changes it.
-const PAYLOAD_BASE_3_90_1 = {
-    0: 255,
-    50: 245,
-    100: 235,
-    150: 221,
-    200: 208,
-    250: 195,
-    300: 181,
-    350: 168,
-    400: 154,
-    450: 141,
-    500: 128,
-    550: 114,
-    600: 101,
-    650: 87,
-    700: 74,
-    750: 60,
-    800: 47,
-    850: 34,
-    900: 20
-};
-// Steps the dark theme maps --theme-elevation-* onto (base-950/1000 are unused there).
-export const PALETTE_STEPS = Object.keys(PAYLOAD_BASE_3_90_1).map(Number).sort((a, b)=>a - b);
+import { PAYLOAD_BASE_GREYS } from './payload-mirror.js';
+// Only Payload's lightness curve is reused, so the derived palette keeps its contrast relationships.
+export const PALETTE_STEPS = Object.keys(PAYLOAD_BASE_GREYS).map(Number).sort((a, b)=>a - b);
 export const MAX_BACKGROUND_LIGHTNESS = 0.35;
 const TOP_LIGHTNESS = 0.985;
 const MIN_CONTRAST = 4.5;
 function referenceLightness(step) {
-    const v = PAYLOAD_BASE_3_90_1[step];
+    const v = PAYLOAD_BASE_GREYS[step];
     return rgbToOklch({
         b: v,
         g: v,

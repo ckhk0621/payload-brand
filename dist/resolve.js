@@ -1,8 +1,7 @@
 import { contrastRatio, parseHex, toHex } from './color.js';
 import { IDEASTIME_BRAND } from './ideastime.js';
 import { derivePalette } from './palette.js';
-// Payload 3.90.1 --color-base-900: the dark background when no palette is derived.
-const PAYLOAD_DARK_BACKGROUND = '#141414';
+import { PAYLOAD_DARK_BACKGROUND } from './payload-mirror.js';
 const MIN_ACCENT_CONTRAST = 3;
 const FONT_FAMILY = /^[\w -]{1,64}$/;
 export const ACCENT_FALLBACK = 'var(--color-base-0)';
@@ -136,9 +135,10 @@ function resolveFont(value, warn) {
     if (value === undefined) {
         return null;
     }
-    if (isObject(value) && typeof value.family === 'string' && FONT_FAMILY.test(value.family) && isHttpsUrl(value.href)) {
+    const family = isObject(value) ? text(value.family) : null;
+    if (family && FONT_FAMILY.test(family) && isObject(value) && isHttpsUrl(value.href)) {
         return {
-            family: value.family,
+            family,
             href: value.href
         };
     }
