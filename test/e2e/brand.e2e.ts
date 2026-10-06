@@ -22,7 +22,13 @@ const expected = {
 }[BRAND]
 const devUser = { email: 'dev@example.com', password: 'dev-password-123' }
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-const titleSuffix = new RegExp(`— ${escapeRegExp(expected.name)}$`)
+const titleSuffix = new RegExp(`\\S — ${escapeRegExp(expected.name)}$`)
+
+// toHaveTitle reads document.title, which collapses whitespace; the raw <title> text does not.
+async function expectTitleSuffix(page: Page) {
+  await expect(page).toHaveTitle(titleSuffix)
+  expect(await page.locator('head > title').textContent()).toMatch(titleSuffix)
+}
 
 function rootBackground(page: Page) {
   return page.evaluate(() => getComputedStyle(document.documentElement).backgroundColor)
@@ -39,7 +45,7 @@ async function login(page: Page) {
 test('login page carries the brand', async ({ page }) => {
   await page.goto('/admin/login')
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
-  await expect(page).toHaveTitle(titleSuffix)
+  await expectTitleSuffix(page)
   await expect(page.locator('.pb-logo')).toBeVisible()
   const footer = page.locator('.pb-login-footer')
   await expect(footer).toContainText('Crafted by iDeasTime')
@@ -120,5 +126,5 @@ test('forgot-password page renders with the title suffix (known limitation: not 
 }) => {
   await page.goto('/admin/forgot')
   await expect(page.locator('#field-email')).toBeVisible()
-  await expect(page).toHaveTitle(titleSuffix)
+  await expectTitleSuffix(page)
 })

@@ -54,7 +54,8 @@ describe('applyBrand with the iDeasTime preset', () => {
 
   test('sets title suffix, svg data-URI favicon and preview image', () => {
     const meta = out.admin!.meta!
-    expect(meta.titleSuffix).toBe(' — iDeasTime')
+    // Payload joins the suffix with a space of its own.
+    expect(meta.titleSuffix).toBe('— iDeasTime')
     const icons = meta.icons as Array<{ type?: string; url: string }>
     expect(icons[0].url.startsWith('data:image/svg+xml,')).toBe(true)
     expect(icons[0].type).toBe('image/svg+xml')
