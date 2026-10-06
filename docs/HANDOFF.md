@@ -5,24 +5,26 @@
 
 ## 而家企喺邊
 
-- v1 做完，2026-10-01 已經 ff 入 `main`（`feat/v1` 留住，同 `main` 同一個 commit）。ff 之後喺 `main` 再跑過：lint 0、tsc 0、unit 91/91、`verify:dist` 一致。
-- 已 push 去公開 repo `ckhk0621/payload-brand`（`main` 同 `v1.0.0`–`v1.0.2`）。2026-10-01 第一輪 `ci` 4 個 run（`main` ＋ 3 個 tag）全過；tag run 連 `verify:dist` 都過。客戶 project 照 README 用 `github:` 裝，唔再係 `git+file://`。
-- Tag（本機同 `origin` 一致）：
-  - **`v1.0.2` 係現行版本**：`colors`／`colors.accent` 變選填（唔填就行 Payload 原裝 dark、卡邊用 Payload 白色），非正方形 mark 唔再爆出 nav icon slot。
+- v1 喺 2026-10-01 ff 入 `main`；`v1.0.3`（2026-10-07）喺 branch `fix/v1.0.3` 做完再 ff 入 `main` 先 release。兩條 branch 都已經 merge 晒，留住冇獨有 commit。
+- 公開 repo `ckhk0621/payload-brand`：`origin` 有 `v1.0.0`–`v1.0.2`，2026-10-01 嗰 4 個 `ci` run 全過。`v1.0.3` 打咗 tag 但淨係喺本機，`origin/main` 仲停喺 v1.0.2 之後啲 HANDOFF commit（見等 CK）。客戶 project 照 README 用 `github:` 裝。
+- Tag：
+  - **`v1.0.3` 係現行版本**：title 後綴唔再出雙空格（R3）、`font.family` 會 trim（R6）；Payload 抄過嚟嘅值（灰階、dark 底色、字體 stack）收埋喺 `src/payload-mirror.ts`，unit test 會同已安裝嘅 Payload 比對，所以 `test:payload` 而家捉到漂移。
+  - `v1.0.2` 用得，但冇上面三樣。由佢開始 `colors`／`colors.accent` 選填（唔填就行 Payload 原裝 dark、卡邊用 Payload 白色），非正方形 mark 唔再爆出 nav icon slot。
   - `v1.0.1` 用得，但冇上面兩樣；iDeasTime preset 個 nav icon 會被裁。
   - `v1.0.0` 有 review 揪出嘅兩個問題：冇 `ogImage` 時預覽圖爛、serverProps 冇嘅話會 throw。唔好用，但留低唔刪。
-- 驗證（2026-10-01，`v1.0.2`）：
-  - unit 91、lint 0、tsc 0
-  - E2E 兩個品牌各 6 passed，包括 icon 唔超出 slot（桌面同手機闊度）
-  - `test:failsoft` PASSED
-  - `test:payload 3.90.2` PASSED（3.90.1 係 repo 本身嘅版本，即上面幾項）
-  - `verify:dist` 一致；`test:consumer v1.0.2` PASSED
-  - 人手 production smoke（`next build` + `next start`）淨係做過 `v1.0.1`，`v1.0.2` 未做（BACKLOG R9）
+- 驗證（2026-10-07，`v1.0.3`，Payload 3.90.1）：
+  - unit 96、lint 0、tsc 0
+  - E2E 兩個品牌各 6 passed（而家連 raw `<title>` 都驗）
+  - `test:failsoft` PASSED；`verify:dist` 42 個檔一致；`test:consumer v1.0.3` PASSED
+  - 漂移 test 實證過：改壞鏡像值（灰階、字體）同 Payload 嘅 dark 對應，各自都會紅
+  - `test:payload 3.90.2` PASSED（漂移 test 喺 3.90.2 下面都綠，即係 3.90.2 冇改呢三個值）
+  - 人手 production smoke（`next build` + `next start`）淨係做過 `v1.0.1`（BACKLOG R9）
 - `payload-latest`（每週一 schedule）未跑過；`ci` 見上。
 - Plan／spec 喺 `docs/superpowers/`，gitignored、只喺本機。
 
 ## 等 CK
 
+- Push `main` 同 tag `v1.0.3`：`! git -C ~/jobs/ideastime/payload-brand push origin main --follow-tags`。Push 完 Claude 去睇 tag 嗰個 CI run。
 - 覆核 3 個【autopilot】決定（見已拍板）。CK 2026-10-01 睇過兩個品牌嘅 preview，冇反對，但未明確批。
 - 每個客戶 admin 會顯示支援聯絡 `cklam@ideastime.ltd` 同 WhatsApp +852 6329 5926（官網 `lib/contact.json` 鏡像）。要唔要另開一個 support email？
 - 覆核 autopilot 收工留低嘅 save 候選：`~/.claude/autopilot/dab01200-7899-427b-a178-2db4605d6faf-review.md`
@@ -42,6 +44,7 @@
 
 ## 下一步
 
-1. CK 做完「等 CK」之後：揀第一個新客戶 project 試裝 `v1.0.2`，照 README 四步做，裝完跑一次 `pnpm payload generate:importmap`。
-2. `docs/BACKLOG.md` 有 R3–R9，按需要修。改到 `src/` 就要出新 patch，再跑 `pnpm test:consumer v<新版>`。
-3. Payload 出新版，升任何客戶 project 之前，先喺呢度跑 `pnpm test:payload <version>`。
+1. CK push 完：睇 `v1.0.3` tag 嘅 `ci` run（要包埋 `verify:dist`）。
+2. 揀第一個新客戶 project 試裝 `v1.0.3`，照 README 四步做，裝完跑一次 `pnpm payload generate:importmap`。
+3. `docs/BACKLOG.md` 剩 R4、R7–R9，按需要修；R4 要先揀門檻。改到 `src/` 就要出新 patch，再跑 `pnpm test:consumer v<新版>`。
+4. Payload 出新版，升任何客戶 project 之前，先喺呢度跑 `pnpm test:payload <version>`。
