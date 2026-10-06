@@ -70,6 +70,11 @@ It installs that version into the dev app, runs unit tests, the e2e smoke for bo
 fail-soft check, then restores the repo. A weekly CI run does the same against npm `latest`, but
 GitHub disables scheduled workflows after 60 days of inactivity, so do not rely on it alone.
 
+The unit tests include `test/unit/payload-mirror.test.ts`, which compares the values copied from
+Payload into `src/payload-mirror.ts` (neutral palette, dark background mapping, body font) with the
+installed version. If it fails, re-copy them from the files the test reads and rerun the palette
+tests.
+
 ## Development
 
 ```bash
