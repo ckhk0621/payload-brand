@@ -151,13 +151,9 @@ function resolveFont(value: unknown, warn: Warn): ResolvedBrand['font'] {
   if (value === undefined) {
     return null
   }
-  if (
-    isObject(value) &&
-    typeof value.family === 'string' &&
-    FONT_FAMILY.test(value.family) &&
-    isHttpsUrl(value.href)
-  ) {
-    return { family: value.family, href: value.href }
+  const family = isObject(value) ? text(value.family) : null
+  if (family && FONT_FAMILY.test(family) && isObject(value) && isHttpsUrl(value.href)) {
+    return { family, href: value.href }
   }
   warn(
     'brand.font needs a plain family name (letters, digits, spaces, "-", "_") and an https:// stylesheet href',

@@ -111,10 +111,18 @@ describe('client brand', () => {
   test.each([
     [{ family: 'Inter;}</style>', href: 'https://fonts.googleapis.com/css2?family=Inter' }],
     [{ family: 'Inter', href: 'http://fonts.googleapis.com/css2?family=Inter' }],
+    [{ family: '   ', href: 'https://fonts.googleapis.com/css2?family=Inter' }],
   ])('rejects unsafe font %j', (font) => {
     const { brand, warnings } = resolve({ ...demo, font })
     expect(brand.font).toBeNull()
     expect(warnings.some((w) => w.includes('brand.font'))).toBe(true)
+  })
+
+  test('trims the font family, which otherwise never matches the loaded face', () => {
+    const href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC'
+    const { brand, warnings } = resolve({ ...demo, font: { family: ' Noto Sans TC ', href } })
+    expect(warnings).toEqual([])
+    expect(brand.font).toEqual({ family: 'Noto Sans TC', href })
   })
 
   test('rejects a relative ogImage', () => {
