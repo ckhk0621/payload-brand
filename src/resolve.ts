@@ -3,9 +3,8 @@ import type { Brand, BrandGraphic, BrandLogo, ResolvedBrand, Warn } from './type
 import { contrastRatio, parseHex, toHex } from './color.js'
 import { IDEASTIME_BRAND } from './ideastime.js'
 import { derivePalette } from './palette.js'
+import { PAYLOAD_DARK_BACKGROUND } from './payload-mirror.js'
 
-// Payload 3.90.1 --color-base-900: the dark background when no palette is derived.
-const PAYLOAD_DARK_BACKGROUND = '#141414'
 const MIN_ACCENT_CONTRAST = 3
 const FONT_FAMILY = /^[\w -]{1,64}$/
 

@@ -1,11 +1,7 @@
 import type { ResolvedBrand } from './types.js'
 
 import { IDEASTIME } from './ideastime.js'
-
-// Payload 3.90.1 --font-body (@payloadcms/next/dist/prod/styles.css). Appended after the brand
-// family so CJK text falls back to system fonts.
-export const PAYLOAD_FONT_BODY_3_90_1 =
-  '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+import { PAYLOAD_FONT_BODY } from './payload-mirror.js'
 
 const COMPONENT_CSS = [
   // No percentage sizes here: Payload's login brand wrapper is a flex container, and a %
@@ -36,7 +32,8 @@ const COMPONENT_CSS = [
 export function buildThemeCss(brand: ResolvedBrand): string {
   const vars = Object.entries(brand.palette ?? {}).map(([name, value]) => `${name}:${value}`)
   if (brand.font) {
-    vars.push(`--font-body:'${brand.font.family}', ${PAYLOAD_FONT_BODY_3_90_1}`)
+    // Payload's stack follows the brand family so CJK text falls back to system fonts.
+    vars.push(`--font-body:'${brand.font.family}', ${PAYLOAD_FONT_BODY}`)
   }
   vars.push(`--pb-accent:${brand.accent}`, `--pb-wordmark-accent:${IDEASTIME.wordmark.accent}`)
   // Inputs are validated upstream; still never emit anything that could close the <style> tag.
